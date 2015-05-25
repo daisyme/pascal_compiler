@@ -35,7 +35,7 @@
   }
 %}
 
-dot       "."
+dot       	"."
 program		"program"
 semi	  	";"
 const	  	"const"
@@ -45,7 +45,7 @@ type	  	"type"
 lp		  	"("
 rp		  	")"
 lb		  	"["
-rb			  "]"
+rb			"]"
 dotdot		".."
 sys_type	"boolean"|"char"|"integer"|"real"
 array	  	"array"
@@ -119,52 +119,52 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 {equal}     { return EQUAL; }
 {sys_con}   { return SYS_CON; }
 {type}     	{ namePart = 1; return TYPE;}
-{lp}		    { return LP; }
-{rp}		    { return RP; }
-{lb}		    { return LB; }
-{rb}		    { return RB; }
-{dotdot}	  { return DOTDOT; }
+{lp}		{ return LP; }
+{rp}		{ return RP; }
+{lb}		{ return LB; }
+{rb}		{ return RB; }
+{dotdot}	{ return DOTDOT; }
 {sys_type}	{ return SYS_TYPE; }
-{array}		  {return ARRAY;}
-{of}		    {return OF;}
-{record}	  {return RECORD;}
-{end}		    {return END;}
-{comma}	  	{return COMMA;}
-{colon}	  	{return COLON;}
-{assign}	  {return ASSIGN;}
-{begin}		  {namePart = 0; return BEGIN2;}
-{sys_proc}	{return SYS_PROC;}
-{read}	  	{return READ;}
-{if}	    	{return IF;}
-{then}	  	{return THEN;}
-{else}		  {return ELSE;}
-{repeat}	  {return REPEAT;}
-{until}		  {return UNTIL;}
-{for}		    {return FOR;}
-{do}		    {return DO;}
-{to}	  	  {return TO;}
-{downto}	  {return DOWNTO;}
-{case}		  {return CASE;}
-{goto}	  	{return GOTO;}
-{ge}  	  	{return GE;}
-{gt}    		{return GT;}
-{le}	     	{return LE;}
-{lt}	  	  {return LT;}
-{unequal}	  {return UNEQUAL;}
-{plus}		  {return PLUS;}
-{minus}		  {return MINUS;}
-{mul}		    {return MUL;}
-{mod}		    {return MOD;}
-{div}		    {return DIV;}
-{and}		    {return AND;}
-{or}	    	{return OR;}
-{sys_funct}	{return SYS_FUNCT;}
-{var}		    { namePart = 0; return VAR;}
+{array}		{ return ARRAY;}
+{of}		{ return OF;}
+{record}	{ return RECORD;}
+{end}		{ return END;}
+{comma}	  	{ return COMMA;}
+{colon}	  	{ return COLON;}
+{assign}	{ return ASSIGN;}
+{begin}		{ namePart = 0; return BEGIN;}
+{sys_proc}	{ return SYS_PROC;}
+{read}	  	{ return READ;}
+{if}	    { return IF;}
+{then}	  	{ return THEN;}
+{else}		{ return ELSE;}
+{repeat}	{ return REPEAT;}
+{until}		{ return UNTIL;}
+{for}		{ return FOR;}
+{do}		{ return DO;}
+{to}	  	{ return TO;}
+{downto}	{ return DOWNTO;}
+{case}		{ return CASE;}
+{goto}	  	{ return GOTO;}
+{ge}  	  	{ return GE;}
+{gt}    	{ return GT;}
+{le}	    { return LE;}
+{lt}	  	{ return LT;}
+{unequal}	{ return UNEQUAL;}
+{plus}		{ return PLUS;}
+{minus}		{ return MINUS;}
+{mul}		{ return MUL;}
+{mod}		{ return MOD;}
+{div}		{ return DIV;}
+{and}		{ return AND;}
+{or}	    { return OR;}
+{sys_funct}	{ return SYS_FUNCT;}
+{var}		{ namePart = 0; return VAR;}
 {function}	{ namePart = 0; return FUNCTION;}
 {procedure}	{ namePart = 0; return PROCEDURE;}
-{while}	  	{return WHILE;}
-{not}	    	{return NOT;}
-{label}	  	{return LABEL;}
+{while}	  	{ return WHILE;}
+{not}	    { return NOT;}
+{label}	  	{ return LABEL;}
 {word}      {
 	int i;
 	int n = strlen(yytext);
@@ -213,7 +213,7 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 		}
 	}
 }
-.|\n {
+. | \n {
 }
 %%
 
