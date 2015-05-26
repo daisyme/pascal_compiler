@@ -6,32 +6,31 @@
   #include <ctype.h>
   #include "y.tab.h"
 
-  #define Hash_Size 1000005
-  const int Hash_Seed = 31;
-
-  int hashTable[Hash_Size];
-  int namePart = 0;
-
-  int BKDRhash(char *s)
-  {
-  	int n = strlen(s);
-  	int i;
-  	int res = 0;
-  	for (i = 0; i < n; ++i) {
-  		res = (res * Hash_Seed + s[i]) % Hash_Size;
-  	}
-  	return res;
+  #define SIZE 100005
+  #define SEED 31
+  
+  int data[SIZE];
+  int isVal = 0;
+  
+  int BKDRHash (char *s) {
+    int l = strlen(s);
+    int i;
+    int res = 0;
+    for (i = 0; i < l; ++i) {
+      res = (res * SEED + s[i]) % SIZE;
+    }
+    return res;
   }
-
-  int isInt(char *s) {
-  	int p = 0;
-  	if (s[0] == '+' || s[0] == '-') p = 1;
-  	int i;
-  	int n = strlen(s);
-  	for (i = p; i < n; ++i) {
-  		if (!isdigit(s[i])) return 0;
-  	}
-  	return 1;
+  
+  int isInt (char *s) {
+    int st = 0;
+    int i;
+    int l = strlen(s);
+    if (s[0] == '+' || s[0] == '-') st = 1;
+    for (i = st; i < l; ++i) {
+      if (!isdigit(s[i])) return 0;
+    }
+    return 1;
   }
 %}
 
@@ -40,14 +39,14 @@ program		"program"
 semi	  	";"
 const	  	"const"
 equal	  	"="
-sys_con		"true"|"false"|"maxint"
+sys_con		"true" | "false" | "maxint"
 type	  	"type"
 lp		  	"("
 rp		  	")"
 lb		  	"["
 rb			"]"
 dotdot		".."
-sys_type	"boolean"|"char"|"integer"|"real"
+sys_type	"boolean" | "char" | "integer" | "real"
 array	  	"array"
 of		  	"of"
 record	 	"record"
@@ -56,7 +55,7 @@ comma	  	","
 colon	  	":"
 assign 		":="
 begin	  	"begin"
-sys_proc	"write"|"writeln"
+sys_proc	"write" | "writeln"
 read	  	"read"
 if		  	"if"
 then	  	"then"
@@ -81,7 +80,7 @@ mod		  	"mod"
 div		  	"div"
 and		  	"and"
 or		  	"or"
-sys_funct	"abs"|"chr"|"odd"|"ord"|"pred"|"sqr"|"sqrt"|"succ"
+sys_funct	"abs" | "chr" | "odd" | "ord" | "pred" | "sqr" | "sqrt" | "succ"
 var		  	"var"
 function	"function"
 procedure	"procedure"
@@ -98,8 +97,10 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 		if (c == '}') break;
 	}
 }
+
 "//".*\n {
 }
+
 "\'" { 
 	char c;
 	int cnt = 0;
@@ -115,74 +116,73 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 {dot}       { return DOT; }
 {program}   { return PROGRAM; }
 {semi}      { return SEMI; }
-{const}     { namePart = 1; return CONST; }
+{const}     { isVal = 1; return CONST; }
 {equal}     { return EQUAL; }
 {sys_con}   { return SYS_CON; }
-{type}     	{ namePart = 1; return TYPE;}
+{type}     	{ isVal = 1; return TYPE; }
 {lp}		{ return LP; }
 {rp}		{ return RP; }
 {lb}		{ return LB; }
 {rb}		{ return RB; }
 {dotdot}	{ return DOTDOT; }
 {sys_type}	{ return SYS_TYPE; }
-{array}		{ return ARRAY;}
-{of}		{ return OF;}
-{record}	{ return RECORD;}
-{end}		{ return END;}
-{comma}	  	{ return COMMA;}
-{colon}	  	{ return COLON;}
-{assign}	{ return ASSIGN;}
-{begin}		{ namePart = 0; return BEGIN;}
-{sys_proc}	{ return SYS_PROC;}
-{read}	  	{ return READ;}
-{if}	    { return IF;}
-{then}	  	{ return THEN;}
-{else}		{ return ELSE;}
-{repeat}	{ return REPEAT;}
-{until}		{ return UNTIL;}
-{for}		{ return FOR;}
-{do}		{ return DO;}
-{to}	  	{ return TO;}
-{downto}	{ return DOWNTO;}
-{case}		{ return CASE;}
-{goto}	  	{ return GOTO;}
-{ge}  	  	{ return GE;}
-{gt}    	{ return GT;}
-{le}	    { return LE;}
-{lt}	  	{ return LT;}
-{unequal}	{ return UNEQUAL;}
-{plus}		{ return PLUS;}
-{minus}		{ return MINUS;}
-{mul}		{ return MUL;}
-{mod}		{ return MOD;}
-{div}		{ return DIV;}
-{and}		{ return AND;}
-{or}	    { return OR;}
-{sys_funct}	{ return SYS_FUNCT;}
-{var}		{ namePart = 0; return VAR;}
-{function}	{ namePart = 0; return FUNCTION;}
-{procedure}	{ namePart = 0; return PROCEDURE;}
-{while}	  	{ return WHILE;}
-{not}	    { return NOT;}
-{label}	  	{ return LABEL;}
-{word}      {
+{array}		{ return ARRAY; }
+{of}		{ return OF; }
+{record}	{ return RECORD; }
+{end}		{ return END; }
+{comma}	  	{ return COMMA; }
+{colon}	  	{ return COLON; }
+{assign}	{ return ASSIGN; }
+{begin}		{ isVal = 0; return BEGIN; }
+{sys_proc}	{ return SYS_PROC; }
+{read}	  	{ return READ; }
+{if}	    { return IF; }
+{then}	  	{ return THEN; }
+{else}		{ return ELSE; }
+{repeat}	{ return REPEAT; } 
+{until}		{ return UNTIL; }
+{for}		{ return FOR; }
+{do}		{ return DO; }
+{to}	  	{ return TO; }
+{downto}	{ return DOWNTO; }
+{case}		{ return CASE; }
+{goto}	  	{ return GOTO; }
+{ge}  	  	{ return GE; }
+{gt}    	{ return GT; }
+{le}	    { return LE; }
+{lt}	  	{ return LT; }
+{unequal}	{ return UNEQUAL; }
+{plus}		{ return PLUS; }
+{minus}		{ return MINUS; }
+{mul}		{ return MUL; }
+{mod}		{ return MOD; }
+{div}		{ return DIV; }
+{and}		{ return AND; }
+{or}	    { return OR; }
+{sys_funct}	{ return SYS_FUNCT; }
+{var}		{ isVal = 0; return VAR; }
+{function}	{ isVal = 0; return FUNCTION; }
+{procedure}	{ isVal = 0; return PROCEDURE; }
+{while}	  	{ return WHILE; }
+{not}	    { return NOT; }
+{label}	  	{ return LABEL; }
+{word}      { 
 	int i;
-	int n = strlen(yytext);
 	if (isalpha(yytext[0]) || yytext[0]=='_') { 
 		int noDot = 1;
-		for (i = 0; i < n; ++i) {
-			if (yytext[i]=='.') {
+		for (i = 0; i < yyleng; ++i) {
+			if (yytext[i] == '.') {
 				noDot = 0;
 				break;
 			}
 		}
 		if (noDot) {
-			if (namePart) {
-				hashTable[BKDRhash(yytext)] = 1;
+			if (isVal) {
+				data[BKDRHash(yytext)] = 1;
 				return NAME;
 			}
 			else {
-				if (hashTable[BKDRhash(yytext)]) return NAME;
+				if (data[BKDRHash(yytext)]) return NAME;
 				else {
 					return ID;
 				}
@@ -191,21 +191,20 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 	}
 	else { 
 		if (yytext[0] == '+' || yytext[0] == '-' && n > 1) {
-
 		}
 		else {
 			if (isInt(yytext)) return INTEGER;
 			char a[256] = {0}, b[256] = {0};
 			int dot = -1;
-			for (i = 0; i < n; ++i) {
+			for (i = 0; i < yyleng; ++i) {
 				if (yytext[i] == '.' || yytext[i] == 'e' || yytext[i] == 'E')  {
 					dot = i;
 					break;
 				}
 				a[i] = yytext[i];
 			}
-			if (dot > 0 && dot != n-1) {
-				for (i = dot + 1; i < n; ++i) {
+			if (dot > 0 && dot + 1 != yyleng) {
+				for (i = dot + 1; i < yyleng; ++i) {
 					b[i - dot - 1] = yytext[i];
 				}
 				if (isInt(a) && isInt(b)) return REAL;
@@ -213,7 +212,8 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 		}
 	}
 }
-. | \n {
+
+.|\n {
 }
 %%
 
