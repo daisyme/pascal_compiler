@@ -82,8 +82,8 @@ label_part :
 const_part : CONST  const_expr_list  
 	|  
 	;
-const_expr_list : const_expr_list  NAME  EQUAL  const_value  SEMI 
-	|  NAME  EQUAL  const_value  SEMI
+const_expr_list : const_expr_list  ID  EQUAL  const_value  SEMI 
+	|  ID  EQUAL  const_value  SEMI
 	;
 const_value : INTEGER  
 	|  REAL  
@@ -97,20 +97,12 @@ type_part : TYPE type_decl_list
 type_decl_list : type_decl_list  type_definition  
 	|  type_definition
 	;
-type_definition : NAME  EQUAL  type_decl  SEMI
+type_definition : ID  EQUAL  type_decl  SEMI
 	;
 type_decl : simple_type_decl  
 	|  array_type_decl  
 	|  record_type_decl
 	;
-simple_type_decl : SYS_TYPE  
-	|  NAME  
-	|  LP  name_list  RP  
-    |  const_value  DOTDOT  const_value  
-    |  MINUS  const_value  DOTDOT  const_value
-    |  MINUS  const_value  DOTDOT  MINUS  const_value
-    |  NAME  DOTDOT  NAME
-    ;
 array_type_decl : ARRAY  LB  simple_type_decl  RB  OF  type_decl
 	;
 record_type_decl : RECORD  field_decl_list  END
@@ -123,6 +115,14 @@ field_decl : name_list  COLON  type_decl  SEMI
 name_list : name_list  COMMA  ID  
 	|  ID
 	;
+simple_type_decl : SYS_TYPE  
+	|  ID  
+	|  LP  name_list  RP  
+    |  const_value  DOTDOT  const_value  
+    |  MINUS  const_value  DOTDOT  const_value
+    |  MINUS  const_value  DOTDOT  MINUS  const_value
+    |  ID  DOTDOT  ID
+    ;
 var_part : VAR  var_decl_list  
 	|  
 	;
@@ -135,6 +135,7 @@ routine_part:  routine_part  function_decl
 	|  routine_part  procedure_decl
 	|  function_decl  
 	|  procedure_decl
+	|
 	;
 function_decl : function_head  SEMI  sub_routine  SEMI
 	;
@@ -148,6 +149,7 @@ parameters : LP  para_decl_list  RP
 	|  
 	;
 para_decl_list : para_decl_list  SEMI  para_type_list
+	|  para_type_list
 	;
 para_type_list : var_para_list COLON  simple_type_decl  
 	|  val_para_list  COLON  simple_type_decl
@@ -232,8 +234,8 @@ term : term  MUL  factor
  	|  term  AND  factor  
  	|  factor
  	;
-factor : NAME  
-	|  NAME  LP  args_list  RP  
+factor : ID  
+	|  ID  LP  args_list  RP  
 	|  SYS_FUNCT
 	|  SYS_FUNCT  LP  args_list  RP  
 	|  const_value  
@@ -242,7 +244,6 @@ factor : NAME
 	|  MINUS  factor  
 	|  ID  LB  expression  RB
 	|  ID  DOT  ID
-	|  ID
 	;
 args_list : args_list  COMMA  expression  
 	|  expression
