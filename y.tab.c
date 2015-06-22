@@ -91,7 +91,7 @@
      COMMA = 280,
      COLON = 281,
      ASSIGN = 282,
-     BEGIN = 283,
+     BEGIN1 = 283,
      END = 284,
      SYS_PROC = 285,
      READ = 286,
@@ -153,7 +153,7 @@
 #define COMMA 280
 #define COLON 281
 #define ASSIGN 282
-#define BEGIN 283
+#define BEGIN1 283
 #define END 284
 #define SYS_PROC 285
 #define READ 286
@@ -594,7 +594,7 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "DOT", "PROGRAM", "ID", "SEMI", "CONST",
   "NAME", "EQUAL", "INTEGER", "REAL", "CHAR", "STRING", "SYS_CON", "TYPE",
   "LP", "RP", "LB", "RB", "DOTDOT", "SYS_TYPE", "ARRAY", "OF", "RECORD",
-  "COMMA", "COLON", "ASSIGN", "BEGIN", "END", "SYS_PROC", "READ", "IF",
+  "COMMA", "COLON", "ASSIGN", "BEGIN1", "END", "SYS_PROC", "READ", "IF",
   "THEN", "ELSE", "REPEAT", "UNTIL", "FOR", "DO", "TO", "DOWNTO", "CASE",
   "GOTO", "GE", "GT", "LE", "LT", "UNEQUAL", "PLUS", "MINUS", "MUL", "MOD",
   "DIV", "OR", "AND", "SYS_FUNCT", "VAR", "FUNCTION", "PROCEDURE", "WHILE",

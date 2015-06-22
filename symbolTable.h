@@ -5,23 +5,25 @@
 #include "info.h"
 #include "const.h"
 
-struct SymbolEelement {
+struct SymbolElement {
     int type; //0 for var, 1 for procedure, 2 for function
     VarInfo vinfo;
     FuncInfo finfo;
     ProcInfo pinfo;
+    ConInfo cinfo;
+    TypeInfo tinfo;
 };
 
 struct SymbolTable {
-    std::vector < std::map <std::string, SymbolEelement> > table;
+    std::vector < std::map <std::string, SymbolElement> > table;
 
     void enterNewScope();
 
     void exitScope();
 
-    void addSymbol(std::string, SymbolEelement); //throw ALREADY_EXIST exception
+    void addSymbol(std::string, SymbolElement); //throw ALREADY_EXIST exception
 
-    SymbolEelement findSymbol(std::string); //throw DO_NOT_EXIST exception
+    SymbolElement findSymbol(std::string); //throw DO_NOT_EXIST exception
 };
 
 #endif

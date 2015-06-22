@@ -24,4 +24,14 @@ struct ProcInfo {
     CommandList cl;
 };
 
+struct TypeInfo {
+    std::string name;
+    int type;
+    //
+};
+
+struct ConInfo {
+    std::string name;
+    ConstValue value;
+};
 #endif

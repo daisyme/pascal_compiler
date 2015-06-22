@@ -1,6 +1,8 @@
 %{ 
 #include <stdio.h>
 #include <ctype.h>
+#include <need.h>  //...
+SymbolTable st;
 %}
 
 %token DOT		// .
@@ -28,7 +30,7 @@
 %token COMMA	// ,
 %token COLON	// :
 %token ASSIGN	// :=
-%token BEGIN
+%token BEGIN1
 %token END
 %token SYS_PROC 
 %token READ
@@ -71,7 +73,9 @@ program : program_head routine DOT
 	;
 program_head : PROGRAM ID SEMI
 	;
-routine : routine_head routine_body
+routine : routine_head routine_body {
+		st.enterNewScope();
+	}
 	;
 sub_routine : routine_head routine_body
 	;
@@ -82,8 +86,10 @@ label_part :
 const_part : CONST  const_expr_list  
 	|  
 	;
-const_expr_list : const_expr_list  ID  EQUAL  const_value  SEMI 
-	|  ID  EQUAL  const_value  SEMI
+const_expr_list : const_expr_list  ID  EQUAL  const_value  SEMI {
+	s0
+}
+	|  ID  EQUAL  const_value
 	;
 const_value : INTEGER  
 	|  REAL  
@@ -160,7 +166,7 @@ val_para_list : name_list
 	;
 routine_body : compound_stmt
 	;
-compound_stmt : BEGIN  stmt_list  END
+compound_stmt : BEGIN1  stmt_list  END
 	;
 stmt_list : stmt_list  stmt  SEMI  
 	|  

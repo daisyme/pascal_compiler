@@ -64,7 +64,7 @@
      COMMA = 280,
      COLON = 281,
      ASSIGN = 282,
-     BEGIN = 283,
+     BEGIN1 = 283,
      END = 284,
      SYS_PROC = 285,
      READ = 286,
@@ -126,7 +126,7 @@
 #define COMMA 280
 #define COLON 281
 #define ASSIGN 282
-#define BEGIN 283
+#define BEGIN1 283
 #define END 284
 #define SYS_PROC 285
 #define READ 286

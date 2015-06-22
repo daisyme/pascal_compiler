@@ -1,9 +1,7 @@
 %{
-  /* Author: Chiba */
   #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  #include <ctype.h>
+  #include <iostream>
+  using namespace std;
   #include "y.tab.h"
 
   #define SIZE 100005
@@ -54,7 +52,7 @@ end		  	"end"
 comma	  	","
 colon	  	":"
 assign 		":="
-begin	  	"begin"
+begin1	  	"begin"
 sys_proc	["write" | "writeln"]
 read	  	"read"
 if		  	"if"
@@ -93,7 +91,7 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 "{" {
 	char c;
 	while (1) {
-		c = input();
+		cin >> c;
 		if (c == '}') break;
 	}
 }
@@ -101,11 +99,23 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 "//".*\n {
 }
 
+"(*" {
+	char c;
+	while (1) {
+		cin >> c;
+		if (c == '*'){
+			cin >> c;
+			if(c == ')')
+				break;
+		}
+	}
+}
+
 "\'" { 
 	char c;
 	int cnt = 0;
 	while (1) {
-		c = input();
+		cin >> c;
 		if (c == '\'') break;
 		++cnt;
 	}
@@ -133,7 +143,7 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 {comma}	  	{ return COMMA; }
 {colon}	  	{ return COLON; }
 {assign}	{ return ASSIGN; }
-{begin}		{ isVal = 0; return BEGIN; }
+{begin1}		{ isVal = 0; return BEGIN1; }
 {sys_proc}	{ return SYS_PROC; }
 {read}	  	{ return READ; }
 {if}	    { return IF; }
