@@ -36,7 +36,7 @@ dot       	"."
 program		"program"
 semi	  	";"
 const	  	"const"
-equal	  	"="
+equal	  	"=" 
 sys_con		["true" | "false" | "maxint"]
 type	  	"type"
 lp		  	"("
@@ -128,7 +128,9 @@ word	  	[A-Za-z0-9]+("."[A-Za-z0-9]+)*
 {semi}      { return SEMI; }
 {const}     { isVal = 1; return CONST; }
 {equal}     { return EQUAL; }
-{sys_con}   { return SYS_CON; }
+{sys_con}   { 
+
+				return SYS_CON; }
 {type}     	{ isVal = 1; return TYPE; }
 {lp}		{ return LP; }
 {rp}		{ return RP; }

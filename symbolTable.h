@@ -10,7 +10,7 @@ struct SymbolElement {
     VarInfo vinfo;
     FuncInfo finfo;
     ProcInfo pinfo;
-    ConInfo cinfo;
+    ConInfo cinfo;   //constant
     TypeInfo tinfo;
 };
 
