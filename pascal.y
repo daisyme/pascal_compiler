@@ -5,12 +5,16 @@
 SymbolTable st;
 %}
 
+%union{
+	struct val* constVal;
+	struct type* Type;
+}
+
 %token DOT		// .
 %token PROGRAM
 %token ID		
 %token SEMI		// ;
 %token CONST
-%token NAME		
 %token EQUAL	// =
 %token INTEGER	// 123
 %token REAL		// 123.123
@@ -32,7 +36,8 @@ SymbolTable st;
 %token ASSIGN	// :=
 %token BEGIN1
 %token END
-%token SYS_PROC 
+//sys_proc
+%token WRITE WRITELN  
 %token READ
 %token IF
 %token THEN
@@ -87,9 +92,9 @@ const_part : CONST  const_expr_list
 	|  
 	;
 const_expr_list : const_expr_list  ID  EQUAL  const_value  SEMI {
-	s0
+	st.
 }
-	|  ID  EQUAL  const_value
+	|  ID  EQUAL  const_value SEMI
 	;
 const_value : INTEGER  
 	|  REAL  
@@ -124,7 +129,7 @@ name_list : name_list  COMMA  ID
 simple_type_decl : SYS_TYPE  
 	|  ID  
 	|  LP  name_list  RP  
-    |  const_value  DOTDOT  const_value  
+    |  const_value  DOTDOT  const_value   
     |  MINUS  const_value  DOTDOT  const_value
     |  MINUS  const_value  DOTDOT  MINUS  const_value
     |  ID  DOTDOT  ID
@@ -185,15 +190,17 @@ non_label_stmt : assign_stmt
 	| goto_stmt
 	;
 assign_stmt : ID  ASSIGN  expression
-           | ID LB expression RB ASSIGN expression
-           | ID  DOT  ID  ASSIGN  expression
-           ;
+    | ID LB expression RB ASSIGN expression
+    | ID  DOT  ID  ASSIGN  expression
+    ;
 proc_stmt : ID
-          |  ID  LP  args_list  RP
-          |  SYS_PROC
-          |  SYS_PROC  LP  expression_list  RP
-          |  READ  LP  factor  RP
-          ;
+    |  ID  LP  args_list  RP
+    |  WRITE
+    |  WRITELN
+    |  WRITE  LP  expression_list  RP
+    |  WRITELN  LP  expression_list  RP
+    |  READ  LP  factor  RP
+    ;
 if_stmt : IF  expression  THEN  stmt  else_clause
 	;
 else_clause : ELSE stmt 
